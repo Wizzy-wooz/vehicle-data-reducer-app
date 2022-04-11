@@ -1,10 +1,15 @@
-package org.example
+package org.vodzianova
 
 import jobs.VehicleDataJob
 import utils.ArgsParser.parseArguments
 
 import org.kohsuke.args4j.Option
 
+/**
+ * Starting point of the project.
+ *
+ * Required and optional args can be specified here.
+ */
 class VehicleDataReducerApp(args: Array[String]) {
 
   @Option(name="-c", aliases=Array("--config-path"), usage="Path to schema config file", required = true)
@@ -19,9 +24,12 @@ class VehicleDataReducerApp(args: Array[String]) {
   @Option(name="-w", aliases=Array("--time-window"), usage="Time window. Default 10 seconds.", required = true)
   var windowDuration: String = "10 seconds"
 
+  @Option(name = "-p", aliases = Array("--process-parallelism"), usage = "Parallelism for processing the data.")
+  var parallelism: Int = 1
+
   def run(): Unit = {
     parseArguments(args)
-    VehicleDataJob.reduce(configPath, sourcePath, targetPath, windowDuration)
+    VehicleDataJob.reduce(configPath, sourcePath, targetPath, windowDuration, parallelism)
   }
 }
 
@@ -30,3 +38,4 @@ object VehicleDataReducerApp {
     new VehicleDataReducerApp(args).run()
   }
 }
+

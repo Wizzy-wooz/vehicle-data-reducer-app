@@ -1,6 +1,10 @@
-package org.example
+package org.vodzianova
 package providers
 
+/**
+ * Implemented only for json config files now.
+ *
+ */
 object SchemaConfigLoader extends SchemaConfigLoadProvider {
 
   override def loadConfig(path: String): Map[String, String] = {

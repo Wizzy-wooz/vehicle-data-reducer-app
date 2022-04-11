@@ -1,11 +1,11 @@
-package org.example
+package org.vodzianova
 
 import jobs.VehicleDataJob
 import jobs.VehicleDataJob.sparkSession
-import model.{VehicleData, VehicleDataTransformed}
-import utils.SparkSessionTestWrapper
 
 import com.github.mrpowers.spark.fast.tests.DataFrameComparer
+import oorg.vodzianova.model.{VehicleData, VehicleDataTransformed}
+import oorg.vodzianova.utils.SparkSessionTestWrapper
 import org.apache.spark.sql.{DataFrame, Row}
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
@@ -35,15 +35,15 @@ class VehicleDataJobSpec extends AnyFlatSpec with SparkSessionTestWrapper with M
     assertSmallDataFrameEquality(actualDF, expectedDF)
   }
 
-  //TODO make as integration test
   "it" should "reduce vehicle data input dataset to expected output dataset according to specified schema config and time window." in {
-    val targetPath = "src/test/resources/result/vehicle_data_reduced.json"
+    val targetPath = "src/test/resources/test1/result/vehicle_data_reduced.json"
 
     VehicleDataJob.reduce(
-      "src/test/resources/schema_conf.json",
-      "src/test/resources/vehicle_data.csv",
-      "src/test/resources/result/vehicle_data_reduced.json",
-      "10 seconds"
+      "src/test/resources/test1/schema_conf.json",
+      "src/test/resources/test1/vehicle_data.csv",
+      "src/test/resources/test1/result/vehicle_data_reduced.json",
+      "10 seconds",
+      1
     )
 
     val actualData: Seq[Row] =
@@ -64,9 +64,34 @@ class VehicleDataJobSpec extends AnyFlatSpec with SparkSessionTestWrapper with M
 
     actualData should be eq expectedData
   }
+
+  "it" should "support any other legal configuration file and support input files with different schema based on a supplied configuration." in {
+    val targetPath = "src/test/resources/test2/result/vehicle_data_reduced.json"
+
+    VehicleDataJob.reduce(
+      "src/test/resources/test2/other_schema_conf.json",
+      "src/test/resources/test2/vehicle_data.csv",
+      "src/test/resources/test2/result/vehicle_data_reduced.json",
+      "10 seconds",
+      1
+    )
+
+    val actualData =
+      sparkSession
+        .read
+        .json(targetPath)
+        .collect()
+
+    val expectedData = Seq(
+      Row(85.7, 1580558406, "4T1BF28B62U270690", 37.0),
+      Row(85.5, 1580558417, "4T1BF28B62U270690", 50.7),
+      Row(85.4, 1580558428, "4T1BF28B62U270690", 43.1),
+      Row(22.4, 1580558409, "1FAFP34P32W126938", 41.1),
+      Row(22.4, 1580558414, "1FAFP34P32W126938", 40.8),
+      Row(22.2, 1580558427, "1FAFP34P32W126938", 42.1),
+      Row(22.2, 1580558436, "1FAFP34P32W126938", 44.4)
+    )
+
+    actualData should be eq expectedData
+  }
 }
-
-
-
-
-

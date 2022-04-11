@@ -1,8 +1,12 @@
-package org.example
+package org.vodzianova
 package providers
 
 import utils.{MandatorySchema, SparkSessionWrapper}
 
+/**
+ * Contract that defines the interface for configs loaders
+ *
+ */
 trait SchemaConfigLoadProvider extends SparkSessionWrapper with MandatorySchema{
 
   def loadConfig(path: String): Map[String, String] = {

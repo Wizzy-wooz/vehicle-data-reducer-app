@@ -1,4 +1,4 @@
-package org.example
+package org.vodzianova
 package utils
 
 import org.apache.spark.SparkConf

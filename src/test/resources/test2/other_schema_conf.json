@@ -1,0 +1,6 @@
+[
+	{"input_field_name": "vehicle_id", "output_field_name": "vehicle_id"},
+	{"input_field_name": "sample_time", "output_field_name": "time"},
+	{"input_field_name": "max_speed", "output_field_name": "vehicle_max_speed"},
+	{"input_field_name": "fuel_level", "output_field_name": "fuel_level"}
+]

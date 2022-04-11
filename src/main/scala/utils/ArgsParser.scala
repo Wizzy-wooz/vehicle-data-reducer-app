@@ -1,8 +1,12 @@
-package org.example
+package org.vodzianova
 package utils
 
 import org.kohsuke.args4j.{CmdLineException, CmdLineParser}
 
+/**
+ * Args validation.
+ *
+ */
 object ArgsParser {
   def parseArguments(args: Seq[String]) {
     val parser = new CmdLineParser(this);
