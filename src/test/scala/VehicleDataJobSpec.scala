@@ -1,14 +1,13 @@
 package org.vodzianova
 
+import com.github.mrpowers.spark.fast.tests.DataFrameComparer
 import jobs.VehicleDataJob
 import jobs.VehicleDataJob.sparkSession
-
-import com.github.mrpowers.spark.fast.tests.DataFrameComparer
-import oorg.vodzianova.model.{VehicleData, VehicleDataTransformed}
-import oorg.vodzianova.utils.SparkSessionTestWrapper
 import org.apache.spark.sql.{DataFrame, Row}
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
+import org.vodzianova.model.{VehicleData, VehicleDataTransformed}
+import org.vodzianova.utils.SparkSessionTestWrapper
 
 class VehicleDataJobSpec extends AnyFlatSpec with SparkSessionTestWrapper with Matchers with DataFrameComparer {
 
